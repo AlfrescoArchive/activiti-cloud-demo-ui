@@ -2,7 +2,7 @@ FROM node:6
 EXPOSE 3000
 
 
-ADD demo-ui-client /home/node/app
+ADD activiti-cloud-demo-ui /home/node/app
 WORKDIR /home/node/app
 
 RUN npm install -g http-server
