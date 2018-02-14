@@ -1,0 +1,73 @@
+<div class="example-container mat-elevation-z8">
+    <h2>Process Instances</h2>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table [dataSource]="dataSource"
+        matSort matSortActive="processInstanceId" matSortDirection="asc"
+        matSortDisableClear>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 4%;">
+            Actions
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="example-cell" style="max-width: 4%;">
+            <mat-menu #appMenu="matMenu">
+                <button mat-menu-item
+                  *ngFor="let action of actions"
+                  (click)="performAction(row, action.key)">
+                  <mat-icon>{{action.icon}}</mat-icon>
+                  {{action.label}}
+                </button>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="processInstanceId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 24%;">#</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.processInstanceId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="applicationName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 10%;">Runtime bundle</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 10%;">{{process.applicationName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="processDefinitionId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 36%;">ProcessDefinitionId</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 36%;">{{process.processDefinitionId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="processDefinitionKey">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell">ProcessDefinitionKey</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell">{{process.processDefinitionKey}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastModified">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 18%;">LastModified</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 18%;">{{process.lastModified}}</mat-cell>
+        </ng-container>
+
+         <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 9%;">Status</mat-header-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 9%;">{{process.status}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns" class="example-header-row"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" class="example-row" (click)="onRowClick(row)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [length]="dataSource?.total$ | async"
+        [pageSize]="3"
+        [pageSizeOptions]="[1, 3, 6]">
+    </mat-paginator>
+
+
+</div>
