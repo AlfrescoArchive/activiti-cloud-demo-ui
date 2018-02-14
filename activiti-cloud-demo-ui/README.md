@@ -1,72 +1,58 @@
-# ADF/APS JavaScript Application with Angular CLI to check Activiti cloud setup
+<h1 align="center">Activiti 7 Cloud</h1>
 
-This demo just shows how to access Activiti 7 Cloud endpoints from a web client.
+## Installing
 
-It is build from a minimal ready-to-use Angular CLI project template pre-configured with ADF 2.0.0 components.
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0
-
-## Quick start
-
-First follow the steps to start the services using docker-compose (and have activiti-cloud-sso-idm hostname mapped in your hosts file).
-
-Alternatively use the steps in the kubernetes folder to start using minikube. If doing so then change gatewayUrl in main-controller and auth server url in keycloak.json (see kubernetes README).
-
+To run or build the app without hassles, make sure that your machine is running Node version 8.2.0 or higher. Install required libraries by using below command.
 
 ```sh
 npm install
+```
+
+## Run in development mode
+
+```sh
 npm start
 ```
 
-Then open a new browser window and go to http://localhost:3000/#/main  (use incognito if you've had previous session)
+This command compiles and starts the project in watch mode.
+Browser will automatically reload upon changes.
+Upon start you can navigate to `http://localhost:3000` with your preferred browser.
 
-Log in as testuser/password
+## Production build
 
-## Notes
+```sh
+npm run build
+```
 
-Routes will take time to register with the gateway. If a run-time bundle of the expected name is not deployed then certain calls will fail. The URLs can be adjusted to call different run-time bundles.
+This command builds project in `production` mode.
+All output is placed to `dist` folder and can be served from your preferred APS web server or from any other web server.
+You should need no additional files outside the `dist` folder
 
-This app runs outside the gateway and also uses keycloak so it therefore shows that the gateway is enabled for CORS. See the gateway project for how to configure CORS using keycloak.cors properties (which are exposed as env variables for docker).
+## Test build
 
-## Supported ADF component libraries
+```sh
+npm run test-single-run
+```
 
-This project has all the existing ADF component libraries already pre-configured.
+This command runs unit test cases written in the project.
 
-The main focus of the project is:
+## Application settings (server-side)
 
-- ADF integration and setup
-- Basic demonstration of working components
+All server-side application settings are stored in the `app.config.json` file.
+By default the configuration file has the content similar to the following one:
 
-## Development server
+```json
+{
+    "apiHost": "my-api-host",
+    "oauth2" : {
+      "host": "my-auth-api-host",
+      "authPath": "/my-auth-path/auth/token",
+      "clientId": "my-client-id",
+      "secret": ""
+    },
+    "logLevel" : "trace"
+}
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+You can change the API end point here and provide the OAuth parameters of your external providers.
 
-### Proxy settings
-
-The template provides certain proxy settings to allow running web application locally without CORS setup.
-You can find details in the `proxy.conf.json` file.
-
-List of URLs being proxied:
-
-- `/activiti-app` -> `http://0.0.0.0:9999`
-
-## Code scaffolding
-
-Run `ng generate component component-name -m app.module` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
