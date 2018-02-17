@@ -104,6 +104,24 @@
                 {{completeTaskResponse}}
             </div>
 
+            <input type="text" ng-model="graphQLUrl" size="80">&nbsp;&nbsp;<button name="graphQL" ng-click="graphQL()">GraphQL Query</button>
+            <p/>
+            <table>
+			   <tr valign="top">
+			      <td>
+		            Using POST body: <br/> 
+		            <textarea ng-model="graphQLPostBody" rows="30" cols="70" ></textarea>
+			      </td>
+			      <td>
+			        Query Result: <br/>
+		            <div ng-show="graphQLResponse">
+						<code>
+		            		<pre>{{graphQLResponse | json}}</pre>
+		        		</code>            
+		            </div>
+			      </td>
+			   </tr>
+			</table>
         </div>
 
     </div>

@@ -26,6 +26,7 @@ app.config(['$httpProvider', function($httpProvider) {
 		window._keycloak.updateToken(5)
 		.success(function() {
 			$httpProvider.defaults.headers.common['Authorization'] = 'BEARER ' + token;
+			localStorage.setItem('token', token); // TODO fix hack leaking token into localStorage for GraphQL queries
 		})
 		.error(function() {
 			console.error('Failed to refresh token');
@@ -33,6 +34,7 @@ app.config(['$httpProvider', function($httpProvider) {
 	}
 
 	$httpProvider.defaults.headers.common['Authorization'] = 'BEARER ' + token;
+	localStorage.setItem('token', token); // TODO fix hack leaking token into localStorage for GraphQL queries
 
     //Enable cross domain calls
     $httpProvider.defaults.useXDomain = true;
@@ -78,3 +80,4 @@ angular.element(document).ready(() => {
 		window.location.reload();
 	});
 });
+

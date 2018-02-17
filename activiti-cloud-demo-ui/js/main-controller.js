@@ -2,7 +2,8 @@
 
 appControllers.controller('MainController', ['$rootScope', '$scope', '$http', 'authorization',
     function($rootScope, $scope, $http, authorization) {
-        $scope.status = 'running...';
+
+	    $scope.status = 'running...';
         $scope.profile = authorization.profile;
         $scope.isUser = authorization.hasRealmRole('user');
 
@@ -17,6 +18,67 @@ appControllers.controller('MainController', ['$rootScope', '$scope', '$http', 'a
         $scope.startProcessPostBody = "{\n\"processDefinitionId\": \"SimpleProcess:1:4\",         \n\"variables\": {         \n\"firstName\": \"Paulo\",         \n\"lastName\": \"Silva\",         \n\"aget\": 25     \n},\n\"commandType\":\"StartProcessInstanceCmd\"\n}";
         $scope.claimTaskUrl = $scope.gatewayUrl + "/rb-my-app/v1/tasks/{taskId}/claim?assignee=testuser";
         $scope.completeTaskUrl = $scope.gatewayUrl + "/rb-my-app/v1/tasks/{taskId}/complete";
+
+        // Configure graphql scope attributes
+        $scope.graphQLUrl = $scope.gatewayUrl + "/query/graphql";
+        $scope.graphQLPostBody = [
+        	"{",
+    		"  ProcessInstances {",
+    		"    select {",
+    		"      processInstanceId",
+    		"      tasks {",
+    		"        id",
+    		"        status",
+    		"        name",
+    		"        assignee",
+    		"        variables {",
+    		"          id",
+    		"          name",
+    		"          type",
+    		"          value",
+    		"        }",
+    		"      }",
+    		"      variables {",
+    		"        id",
+    		"        name",
+    		"        type",
+    		"        value",
+    		"      }",
+    		"    }",
+    		"  }",
+    		"}"
+        ].join("\n");
+        
+        // Based on minimal NPM graphql example: https://github.com/farskipper/vanilla-js-apollo-graphql-full-stack-playground
+        // TODO Use Apollo Angular client for NPM application: https://www.apollographql.com/docs/angular/recipes/simple-example.html
+        // Temporary hack loading latest Apollo NPM dependencies into browser in non-NPM Angular application
+        Promise.all([
+            require("apollo-link-http"),
+            require("apollo-client"),
+            require("apollo-cache-inmemory"),
+            require("gql","graphql-tag"),
+        ])
+        .then(resolved => {
+        	var HttpLink = resolved[0].HttpLink;
+        	var ApolloClient = resolved[1].ApolloClient;
+        	var InMemoryCache = resolved[2].InMemoryCache;
+        	$scope.gql = resolved[3];
+
+    		// TODO use link chain for injecting token into headers 
+    		// TODO Implement custom client fetcher with graphql endpoint url and authentication token refresh 
+        	// https://blog.beeaweso.me/refreshing-token-based-authentication-with-apollo-client-2-0-7d45c20dc703
+    		$scope.apolloClient = new ApolloClient({
+        	    link: new HttpLink({
+        	    	uri: $scope.graphQLUrl,
+        	    	headers: {
+        	    	      Authorization: "Bearer " + localStorage.token
+       	    	    }        	    	
+        	    }),
+        	    cache: new InMemoryCache(),
+        	});
+
+    	})
+        
 
         $scope.getRoutes = function() {
             $http.get($scope.routesUrl).success(function(data) {
@@ -69,6 +131,27 @@ appControllers.controller('MainController', ['$rootScope', '$scope', '$http', 'a
             });
         }
 
+        $scope.graphQL = function() {
+
+        	// parse raw query via promise
+       		new Promise((resolve, reject) => {
+       			resolve($scope.gql($scope.graphQLPostBody));
+       		}) // execute query 
+       		.then(gqlQuery => {
+       			return $scope.apolloClient.query({
+            	    query: gqlQuery,
+            	})
+       		}) // handle response
+    	    .then(function(data) {
+    	    	$scope.graphQLResponse = data.data; 
+    	    	$scope.$apply();
+    	    }) // handle errors
+    	    .catch(function(err) {
+    	    	$scope.graphQLResponse = err; 
+    	    	$scope.$apply();
+    	    });
+    	}
+        
         $scope.logout = function() {
         	authorization.logout();
         }
