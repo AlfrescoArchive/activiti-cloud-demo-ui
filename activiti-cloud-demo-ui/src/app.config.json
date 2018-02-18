@@ -1,0 +1,10 @@
+{
+    "apiHost": "my-api-host",
+    "oauth2" : {
+      "host": "my-auth-api-host",
+      "authPath": "/my-auth-path/auth/token",
+      "clientId": "my-client-id",
+      "secret": ""
+    },
+    "logLevel" : "trace"
+}

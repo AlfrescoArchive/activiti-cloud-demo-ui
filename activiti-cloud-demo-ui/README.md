@@ -1,27 +1,58 @@
-# JS client to check Activiti cloud setup
+<h1 align="center">Activiti 7 Cloud</h1>
 
-This demo just shows how to access Activiti 7 Cloud endpoints from a web client.
+## Installing
 
-## How to run
+To run or build the app without hassles, make sure that your machine is running Node version 8.2.0 or higher. Install required libraries by using below command.
 
-First follow the steps to start the services using docker-compose (and have activiti-cloud-sso-idm hostname mapped in your hosts file).
+```sh
+npm install
+```
 
-Alternatively use the steps in the kubernetes folder to start using minikube. If doing so then change gatewayUrl in main-controller and auth server url in keycloak.json (see kubernetes README).
+## Run in development mode
 
-This demo is tested using the indexzero http-server. First install npm then go this this directory and do:
+```sh
+npm start
+```
 
-npm install -g http-server
+This command compiles and starts the project in watch mode.
+Browser will automatically reload upon changes.
+Upon start you can navigate to `http://localhost:3000` with your preferred browser.
 
-Then to start:
+## Production build
 
-http-server -p 3000
+```sh
+npm run build
+```
 
-Then open a new browser window and go to http://localhost:3000/#/main  (use incognito if you've had previous session)
+This command builds project in `production` mode.
+All output is placed to `dist` folder and can be served from your preferred APS web server or from any other web server.
+You should need no additional files outside the `dist` folder
 
-Log in as testuser/password
+## Test build
 
-## Notes
+```sh
+npm run test-single-run
+```
 
-Routes will take time to register with the gateway. If a run-time bundle of the expected name is not deployed then certain calls will fail. The URLs can be adjusted to call different run-time bundles.
+This command runs unit test cases written in the project.
 
-This app runs outside the gateway and also uses keycloak so it therefore shows that the gateway is enabled for CORS. See the gateway project for how to configure CORS using keycloak.cors properties (which are exposed as env variables for docker).
+## Application settings (server-side)
+
+All server-side application settings are stored in the `app.config.json` file.
+By default the configuration file has the content similar to the following one:
+
+```json
+{
+    "apiHost": "my-api-host",
+    "oauth2" : {
+      "host": "my-auth-api-host",
+      "authPath": "/my-auth-path/auth/token",
+      "clientId": "my-client-id",
+      "secret": ""
+    },
+    "logLevel" : "trace"
+}
+```
+
+You can change the API end point here and provide the OAuth parameters of your external providers.
+
