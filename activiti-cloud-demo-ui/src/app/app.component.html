@@ -5,6 +5,7 @@
   </adf-toolbar-title>
 
   <a  *ngIf="auth.isLoggedOut()" mat-button href="" routerLink="/login">Login</a>
+  <a *ngIf="auth.isLoggedIn()" mat-button href="" routerLink="/graphql">GraphQL</a>
   <a *ngIf="auth.isLoggedIn()" mat-button href="" routerLink="/process-instance">Process Instances</a>
 
   <button *ngIf="auth.isLoggedIn()" mat-button (click)="logout()">Logout</button>
