@@ -27,7 +27,7 @@ export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
   }
 
   update(row) {
-    const index: number = this.processInstances.findIndex(el => el.processInstanceId === row.processInstanceId);
+    const index: number = this.processInstances.findIndex(el => el.id === row.id);
     this.processInstances.splice(index, 1, row);
     this.processInstanceSubject.next(this.processInstances);
   }

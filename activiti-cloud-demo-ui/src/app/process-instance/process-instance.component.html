@@ -6,7 +6,7 @@
     </div>
 
     <mat-table [dataSource]="dataSource"
-        matSort matSortActive="processInstanceId" matSortDirection="asc"
+        matSort matSortActive="id" matSortDirection="asc"
         matSortDisableClear>
 
         <ng-container matColumnDef="actions">
@@ -29,9 +29,9 @@
         </ng-container>
 
 
-        <ng-container matColumnDef="processInstanceId">
+        <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 24%;">#</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.processInstanceId}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.id}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="applicationName">

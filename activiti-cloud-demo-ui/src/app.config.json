@@ -1,9 +1,9 @@
 {
-    "apiHost": "my-api-host",
+    "apiHost": "http://activiti-cloud-sso-idm-kub:30080",
     "oauth2" : {
-      "host": "my-auth-api-host",
-      "authPath": "/my-auth-path/auth/token",
-      "clientId": "my-client-id",
+      "host": "http://activiti-cloud-sso-idm-kub:30081",
+      "authPath": "/auth/realms/springboot/protocol/openid-connect/token",
+      "clientId": "activiti",
       "secret": ""
     },
     "logLevel" : "trace"

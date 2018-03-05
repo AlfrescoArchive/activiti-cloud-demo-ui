@@ -18,7 +18,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class ProcessInstanceComponent implements OnInit, AfterViewInit {
   private instances: ProcessInstance[];
   dataSource: ProcessInstanceDataSource;
-  displayedColumns = ['processInstanceId', 'applicationName', 'status', 'processDefinitionId', 'lastModified', 'actions'];
+  displayedColumns = ['id', 'applicationName', 'status', 'processDefinitionId', 'lastModified', 'actions'];
   total: number;
 
   actions: Array<any> = [];
@@ -61,12 +61,12 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
   }
 
   activate(row: ProcessInstanceQuery): void {
-    this.processInstanceService.activate(row.applicationName, row.processInstanceId)
+    this.processInstanceService.activate(row.applicationName, row.id)
     .subscribe(
       (response) => {
         const mockRes = <ProcessInstanceQuery>{
           applicationName: row.applicationName,
-          processInstanceId: row.processInstanceId,
+          id: row.id,
           processDefinitionId: row.processDefinitionId,
           lastModified: row.lastModified,
           status: 'RUNNING',
@@ -83,12 +83,12 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
   }
 
   suspend(row: ProcessInstanceQuery): void {
-    this.processInstanceService.suspend(row.applicationName, row.processInstanceId)
+    this.processInstanceService.suspend(row.applicationName, row.id)
     .subscribe(
       (response) => {
         const mockRes = <ProcessInstanceQuery>{
           applicationName: row.applicationName,
-          processInstanceId: row.processInstanceId,
+          id: row.id,
           processDefinitionId: row.processDefinitionId,
           lastModified: row.lastModified,
           status: 'SUSPENDED',

@@ -51,7 +51,7 @@ export class ProcessInstanceService {
   suspend(runtimeBundle: string, processInstanceId: string) {
     if (!!runtimeBundle && !!processInstanceId) {
       this.apiHost = this.appConfig.get<string>('apiHost');
-      return this.http.post(`${pathApi.dotaApi}/${runtimeBundle}/v1/process-instances/${processInstanceId}/suspend`,
+      return this.http.post(`${this.apiHost}/${runtimeBundle}/v1/process-instances/${processInstanceId}/suspend`,
         undefined);
     }
   }
@@ -59,7 +59,7 @@ export class ProcessInstanceService {
   activate(runtimeBundle: string, processInstanceId: string) {
     if (!!runtimeBundle && !!processInstanceId) {
       this.apiHost = this.appConfig.get<string>('apiHost');
-      return this.http.post(`${pathApi.dotaApi}/${runtimeBundle}/v1/process-instances/${processInstanceId}/activate`,
+      return this.http.post(`${this.apiHost}/${runtimeBundle}/v1/process-instances/${processInstanceId}/activate`,
         undefined);
     }
   }
