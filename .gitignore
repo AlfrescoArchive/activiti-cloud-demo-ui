@@ -57,3 +57,16 @@ typings/
 # dotenv environment variables file
 .env
 
+# package lock not to be committed to avoid mixing native stuff between dev and docker
+package-lock.json
+
+# IDEA project files
+**.idea/**
+.idea/
+*.iml
+
+# Eclipse project files
+.project
+.classpath
+.settings
+
