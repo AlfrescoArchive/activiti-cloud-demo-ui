@@ -1,12 +1,14 @@
-FROM node:6
-EXPOSE 3000
+FROM node:carbon
 
-ADD activiti-cloud-demo-ui /home/node/app
 WORKDIR /home/node/app
 
-RUN npm install -g http-server
+COPY . .
+
 RUN npm install && npm run build && rm -rf node_modules
 RUN chmod +x cmd.sh
+RUN npm install -g http-server
+
+EXPOSE 3000
 
 CMD ["/home/node/app/cmd.sh"]
 
