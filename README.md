@@ -52,7 +52,7 @@ By default the configuration file has the content similar to the following one:
     },
     "logLevel" : "trace"
 }
-
+```
 
 You can change the API end point here and provide the OAuth parameters of your external providers.
 
