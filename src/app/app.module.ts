@@ -16,7 +16,6 @@ import { AdminAuthBearerGuard } from './admin-auth-bearer-guard.service';
 import { AuthBearerInterceptor } from './auth/auth-bearer.interceptor';
 import { AuthenticationService } from './auth/authentication.service';
 import { ProcessInstanceService } from './process-instance/process-instance.service';
-import { LoginService } from './login/login.service';
 import { ProcessInstanceComponent } from './process-instance/process-instance.component';
 
 import {
@@ -45,7 +44,6 @@ import {
   ],
   providers: [
     AdminAuthBearerGuard,
-    LoginService,
     AuthenticationService,
     [{
       provide: HTTP_INTERCEPTORS, useClass:

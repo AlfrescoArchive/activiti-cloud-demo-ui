@@ -66,8 +66,12 @@ export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
       finalize(() => this.loadingSubject.next(false))
     )
       .subscribe((intances: ProcessResponseQuery) => {
-        this.processInstances = Object.assign([], intances._embedded['process-instances']);
-        this.processInstanceSubject.next(intances._embedded['process-instances']);
+        if (intances._embedded) {
+          this.processInstances = Object.assign([], intances._embedded['process-instances']);
+          this.processInstanceSubject.next(intances._embedded['process-instances']);
+        } else {
+          this.processInstanceSubject.next([]);
+        }
         const page: Page = intances.page;
         this.totalSubject.next(page.totalElements);
       });

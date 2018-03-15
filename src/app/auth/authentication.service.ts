@@ -15,23 +15,6 @@ export class AuthenticationService {
 
   token: string;
 
-  login(username: string, password: string): Observable<any> {
-
-    const body = new HttpParams()
-      .set('grant_type', 'password')
-      .set('username', username)
-      .set('password', password)
-      .set('client_id', 'activiti');
-
-    return this.http.post(`${pathApi.dotaApi}/auth/realms/springboot/protocol/openid-connect/token`,
-      body,
-      {
-        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-      }).do( (response: any) => {
-        this.setToken(response);
-      });
-  }
-
   setToken(authResult) {
     const expiresAt = moment().add(authResult.expires_in, 'seconds');
     localStorage.setItem('id_token', authResult.access_token);
