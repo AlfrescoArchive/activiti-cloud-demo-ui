@@ -1,6 +1,6 @@
 {
-  "name": "adf-cli-aps-template",
-  "version": "2.0.0",
+  "name": "activiti-cloud-demo-ui",
+  "version": "1.0.0",
   "blueprint": "Process Services",
   "description": "APS ADF Application with Angular CLI",
   "license": "MIT",

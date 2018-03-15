@@ -66,6 +66,7 @@ For local development:
 For Docker, you can customise using the following environment variables:
 * ACT_GATEWAY_URL (defaults to http://localhost:8080)
 * ACT_IDM_URL (defaults to http://localhost:8081/openid-connect/token)
+* ACT_IDM_CLIENT_ID (defaults to activiti)
 
 For example:
 
