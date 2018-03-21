@@ -1,5 +1,6 @@
 export interface ProcessInstance {
     id?: string;
+    applicationName?: string;
     initiator?: string;
     processDefinitionId?: string;
     processDefinitionKey?: string;
@@ -8,10 +9,6 @@ export interface ProcessInstance {
     lastModified?: string;
 }
 
-export interface ProcessInstanceQuery {
-  id?: string;
-  applicationName?: string;
-  processDefinitionId?: string;
-  status?: string;
-  lastModified?: string;
+export interface ProcessInstanceQueryEntry {
+  entry: ProcessInstance;
 }

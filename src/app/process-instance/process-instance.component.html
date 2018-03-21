@@ -31,32 +31,32 @@
 
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 24%;">#</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.id}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.entry.id}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="applicationName">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 10%;">Runtime bundle</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 10%;">{{process.applicationName}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 10%;">{{process.entry.applicationName}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="processDefinitionId">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 36%;">ProcessDefinitionId</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 36%;">{{process.processDefinitionId}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 36%;">{{process.entry.processDefinitionId}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="processDefinitionKey">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell">ProcessDefinitionKey</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell">{{process.processDefinitionKey}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell">{{process.entry.processDefinitionKey}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="lastModified">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 18%;">LastModified</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 18%;">{{process.lastModified}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 18%;">{{process.entry.lastModified}}</mat-cell>
         </ng-container>
 
          <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="example-header-cell" style="max-width: 9%;">Status</mat-header-cell>
-            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 9%;">{{process.status}}</mat-cell>
+            <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 9%;">{{process.entry.status}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns" class="example-header-row"></mat-header-row>
