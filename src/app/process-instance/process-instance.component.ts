@@ -6,7 +6,7 @@ import { merge } from 'rxjs/observable/merge';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { ProcessInstanceService } from './process-instance.service';
-import { ProcessInstance, ProcessInstanceQuery } from './process-instance.model';
+import { ProcessInstance, ProcessInstanceQueryEntry } from './process-instance.model';
 import { ProcessInstanceDataSource } from './process-instance.datasource';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -45,14 +45,14 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
   }
 
   queryInstances(): void {
-    this.dataSource.queryProcessIntance(
+    this.dataSource.queryProcessInstance(
       this.sort.active,
       this.sort.direction,
       this.paginator.pageIndex,
       this.paginator.pageSize);
   }
 
-  performAction(row: ProcessInstanceQuery, key: string) {
+  performAction(row: ProcessInstanceQueryEntry, key: string) {
     if (key === 'suspend') {
       this.suspend(row);
     } else {
@@ -60,16 +60,18 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
     }
   }
 
-  activate(row: ProcessInstanceQuery): void {
-    this.processInstanceService.activate(row.applicationName, row.id)
+  activate(row: ProcessInstanceQueryEntry): void {
+    this.processInstanceService.activate(row.entry.applicationName, row.entry.id)
     .subscribe(
       (response) => {
-        const mockRes = <ProcessInstanceQuery>{
-          applicationName: row.applicationName,
-          id: row.id,
-          processDefinitionId: row.processDefinitionId,
-          lastModified: row.lastModified,
-          status: 'RUNNING',
+        const mockRes = <ProcessInstanceQueryEntry>{
+          entry: {
+          applicationName: row.entry.applicationName,
+          id: row.entry.id,
+          processDefinitionId: row.entry.processDefinitionId,
+          lastModified: row.entry.lastModified,
+          status: 'RUNNING'
+          }
         };
         this.dataSource.update(mockRes);
         console.log('POST call successful value returned in body');
@@ -82,16 +84,18 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
       });
   }
 
-  suspend(row: ProcessInstanceQuery): void {
-    this.processInstanceService.suspend(row.applicationName, row.id)
+  suspend(row: ProcessInstanceQueryEntry): void {
+    this.processInstanceService.suspend(row.entry.applicationName, row.entry.id)
     .subscribe(
       (response) => {
-        const mockRes = <ProcessInstanceQuery>{
-          applicationName: row.applicationName,
-          id: row.id,
-          processDefinitionId: row.processDefinitionId,
-          lastModified: row.lastModified,
-          status: 'SUSPENDED',
+        const mockRes = <ProcessInstanceQueryEntry>{
+          entry : {
+          applicationName: row.entry.applicationName,
+          id: row.entry.id,
+          processDefinitionId: row.entry.processDefinitionId,
+          lastModified: row.entry.lastModified,
+          status: 'SUSPENDED'
+          }
         };
         this.dataSource.update(mockRes);
         console.log('POST call successful value returned in body');
@@ -104,9 +108,9 @@ export class ProcessInstanceComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onRowClick(row: ProcessInstanceQuery) {
+  onRowClick(row: ProcessInstanceQueryEntry) {
     this.actions = [];
-    if (row.status === 'RUNNING') {
+    if (row.entry.status === 'RUNNING') {
       this.actions.push({ key: 'suspend', icon: 'pause', label: 'Suspend' });
     } else {
       this.actions.push({ key: 'activate', icon: 'repeat', label: 'Activate' });

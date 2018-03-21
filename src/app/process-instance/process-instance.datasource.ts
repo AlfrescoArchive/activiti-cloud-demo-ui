@@ -4,17 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { ProcessInstanceService } from './process-instance.service';
-import { ProcessInstance } from './process-instance.model';
-import { ProcessResponse, ProcessResponseQuery } from './process-response.model';
-import { Page } from './page.model';
+import { ProcessInstance, ProcessInstanceQueryEntry } from './process-instance.model';
+import { ProcessResponseQuery, } from './process-response.model';
+import { Page, PaginationModel } from './page.model';
 
-export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
+export class ProcessInstanceDataSource implements DataSource<ProcessInstanceQueryEntry> {
 
-  private processInstanceSubject = new BehaviorSubject<ProcessInstance[]>([]);
+  private processInstanceSubject = new BehaviorSubject<ProcessInstanceQueryEntry[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private totalSubject = new BehaviorSubject<number>(0);
 
-  private processInstances: ProcessInstance[];
+  private processInstances: ProcessInstanceQueryEntry[];
 
 
   public loading$ = this.loadingSubject.asObservable();
@@ -26,8 +26,8 @@ export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
     return this.processInstanceSubject.asObservable();
   }
 
-  update(row) {
-    const index: number = this.processInstances.findIndex(el => el.id === row.id);
+  update(row: ProcessInstanceQueryEntry) {
+    const index: number = this.processInstances.findIndex(el => el.entry.id === row.entry.id);
     this.processInstances.splice(index, 1, row);
     this.processInstanceSubject.next(this.processInstances);
   }
@@ -38,24 +38,7 @@ export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
     this.totalSubject.complete();
   }
 
-  loadProcessIntance(runtimebundle: string, filter: string,
-    sortDirection: string = 'asc', pageIndex: number, pageSize: number) {
-
-    this.loadingSubject.next(true);
-
-    this.processService.list(runtimebundle, pageIndex, pageSize).pipe(
-      catchError(() => of([])),
-      finalize(() => this.loadingSubject.next(false))
-    )
-      .subscribe((intances: ProcessResponse) => {
-        this.processInstances = Object.assign([], intances._embedded.processInstanceList);
-        this.processInstanceSubject.next(intances._embedded.processInstanceList);
-        const page: Page = intances.page;
-        this.totalSubject.next(page.totalElements);
-      });
-  }
-
-  queryProcessIntance(
+  queryProcessInstance(
     sortProperty: string,
     sortDirection: string = 'asc', pageIndex: number, pageSize: number) {
 
@@ -65,15 +48,18 @@ export class ProcessInstanceDataSource implements DataSource<ProcessInstance> {
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
-      .subscribe((intances: ProcessResponseQuery) => {
-        if (intances._embedded) {
-          this.processInstances = Object.assign([], intances._embedded['process-instances']);
-          this.processInstanceSubject.next(intances._embedded['process-instances']);
+      .subscribe((instances: ProcessResponseQuery) => {
+        if (instances.list) {
+          if (instances.list.entries) {
+            const entries = instances.list.entries;
+            this.processInstances = Object.assign([], entries);
+            this.processInstanceSubject.next( this.processInstances );
+          }
+          const page: PaginationModel = instances.list.pagination;
+          this.totalSubject.next(page.totalItems);
         } else {
           this.processInstanceSubject.next([]);
         }
-        const page: Page = intances.page;
-        this.totalSubject.next(page.totalElements);
       });
 
   }
