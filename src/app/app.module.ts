@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // ADF modules
 import { AdfModule } from './adf.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GraphQLModule } from './graphql.module';
 
 // App components
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { AuthBearerInterceptor } from './auth/auth-bearer.interceptor';
 import { AuthenticationService } from './auth/authentication.service';
 import { ProcessInstanceService } from './process-instance/process-instance.service';
 import { ProcessInstanceComponent } from './process-instance/process-instance.component';
+
+import { GraphqlComponent } from './graphql/graphql.component';
 
 import {
     MatInputModule,
@@ -34,12 +37,14 @@ import {
     MatPaginatorModule,
     // ADF modules
     AdfModule,
+    GraphQLModule,
     HttpClientModule
   ],
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
+    GraphqlComponent,
     ProcessInstanceComponent
   ],
   providers: [

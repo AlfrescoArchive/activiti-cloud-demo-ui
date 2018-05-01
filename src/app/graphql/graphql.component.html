@@ -1,0 +1,57 @@
+<mat-card class="example-card">
+  <mat-card-title> GraphQL with Activiti Cloud</mat-card-title>
+  <mat-card-content>
+    <br>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <textarea matInput matTextareaAutosize matAutosizeMinRows="4" matAutosizeMaxRows="25" [(ngModel)]="query" name="query" placeholder="Write your query"></textarea>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="submit()">Submit</button>
+  </mat-card-actions>
+</mat-card>
+
+<ng-container *ngIf="processes?.length > 0">
+<mat-table [dataSource]="datasource" >
+  <ng-container matColumnDef="processInstanceId">
+    <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 24%;">#</mat-header-cell>
+    <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 24%;">{{process.processInstanceId}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="applicationName">
+    <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 10%;">Runtime bundle</mat-header-cell>
+    <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 10%;">{{process.applicationName}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 9%;">Status</mat-header-cell>
+    <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 9%;">{{process.status}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="processDefinitionId">
+    <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 36%;">ProcessDefinitionId</mat-header-cell>
+    <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 36%;">{{process.processDefinitionId}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastModified">
+    <mat-header-cell *matHeaderCellDef class="example-header-cell" style="max-width: 18%;">LastModified</mat-header-cell>
+    <mat-cell *matCellDef="let process" class="example-cell" style="max-width: 18%;">{{process.lastModified}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" class="example-header-row"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns" class="example-row"></mat-row>
+</mat-table>
+<br><br>
+<button mat-button color="primary" (click)="toggle()">Show raw response</button>
+<pre *ngIf="showRaw">{{this.processes | json}}</pre>
+</ng-container>
+
+<div *ngIf="errors?.length > 0">
+  <ul>
+    <li *ngFor="let error of errors">
+      {{error.description}}
+    </li>
+  </ul>
+</div>
