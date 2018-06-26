@@ -1,0 +1,31 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST}}:{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT}}/ryandawsonuk/activiti-cloud-demo-ui:{{.VERSION}}"
+  artifacts:
+  - imageName: changeme
+    workspace: .
+    docker: {}
+  local: {}
+deploy:
+  kubectl:
+    manifests:
+profiles:
+- name: dev
+  build:
+    tagPolicy:
+      envTemplate:
+        template: "{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST}}:{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT}}/ryandawsonuk/activiti-cloud-demo-ui:{{.DIGEST_HEX}}"
+    artifacts:
+    - docker: {}
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: activiti-cloud-demo-ui
+        chartPath: charts/activiti-cloud-demo-ui
+        setValueTemplates:
+          image.repository: "{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST}}:{{.JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT}}/ryandawsonuk/activiti-cloud-demo-ui"
+          image.tag: "{{.TAG}}"
