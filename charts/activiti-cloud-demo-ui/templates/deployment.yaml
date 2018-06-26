@@ -21,6 +21,13 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: ACT_GATEWAY_URL
+          value: "{{ .Values.gatewayUrl }}"
+        - name: ACT_IDM_URL
+          value: "{{ .Values.idmUrl }}"
+        - name: ACT_IDM_CLIENT_ID
+          value: "{{ .Values.idmClientId }}"
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         livenessProbe:

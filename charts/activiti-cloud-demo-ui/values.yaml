@@ -14,6 +14,9 @@ service:
   annotations:
     fabric8.io/expose: "true"
     fabric8.io/ingress.annotations: "kubernetes.io/ingress.class: nginx"
+gatewayUrl:  "http://gw.jx-staging.activiti.envalfresco.com"
+idmUrl: "http://jx-staging-quickstart-http.jx-staging.activiti.envalfresco.com/auth/realms/activiti/protocol/openid-connect/token"
+idmClientId:  "activiti"
 resources:
   limits:
     cpu: 400m

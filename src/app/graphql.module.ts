@@ -6,7 +6,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AppConfigService } from '@alfresco/adf-core';
 
-const endPoint = '/query/graphql';
+const endPoint = '/admin/query/graphql';
 
 @NgModule({
   exports: [
