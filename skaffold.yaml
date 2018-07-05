@@ -7,7 +7,9 @@ build:
   artifacts:
   - imageName: changeme
     workspace: .
-    docker: {}
+    docker:
+      buildArgs:
+        BASE_HREF_ARG: "/ui/"
   local: {}
 deploy:
   kubectl:
